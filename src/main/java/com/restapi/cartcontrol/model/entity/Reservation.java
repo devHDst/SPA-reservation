@@ -24,6 +24,7 @@ public class Reservation{
     public static final int STATUS_COMPLETED = 1;
     public static final int STATUS_STRIPE_ERROR = 2;
     public static final int STATUS_QUEUE_ERROR = 3;
+    public static final int STATUS_CANCELED = 4;
     public static final int STATUS_EXPIRED = 99;
     
 

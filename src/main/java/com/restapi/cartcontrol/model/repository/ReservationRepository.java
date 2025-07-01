@@ -18,6 +18,9 @@ public interface ReservationRepository extends JpaRepository<Reservation,String>
     @Query(value = "SELECT * FROM Reservation WHERE userId = :userId and status = 0",nativeQuery = true)
     Reservation getUserReservation(@Param("userId") String userId);
 
+    @Query(value = "SELECT * FROM Reservation WHERE wait_code = :waitCode and status = 0",nativeQuery = true)
+    Reservation getReservationByWaitCd(@Param("waitCode") String waitCode);
+
     @Query(value = "SELECT * FROM Reservation Where status = 0",nativeQuery = true)
     List<Reservation> getPaymentInfo();
     

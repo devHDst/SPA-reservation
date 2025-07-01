@@ -16,6 +16,7 @@ import com.restapi.cartcontrol.model.entity.Shop;
 import com.restapi.cartcontrol.model.repository.MenuRepository;
 import com.restapi.cartcontrol.model.repository.ReservationRepository;
 import com.restapi.cartcontrol.model.repository.ShopRepository;
+import com.restapi.cartcontrol.requestbody.Reservation.CancelBody;
 import com.restapi.cartcontrol.requestbody.Reservation.RegistBody;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -99,4 +100,33 @@ public class ReservationController {
         }
         return returnMsg;
     }
+
+    @PostMapping("/cancelReservation")
+    public Map<String,String> postMethodName(@RequestBody CancelBody cancelBody) throws Exception {
+        System.out.println(cancelBody.getWaitCode());
+        Reservation checkinfo = reservationRepository.getReservationByWaitCd(cancelBody.getWaitCode());
+        Map<String, String> response = new HashMap<>();
+
+        if(checkinfo == null){
+            log.error("予約IDが見つかりません");
+            response.put("message", "予約IDが見つかりません");
+            return response;
+        }
+
+
+        // キャンセル通知メールの確認処理をここで実装(メール失敗したら巻き戻し)
+
+        try {
+            int result = reservationRepository.updateStatus(cancelBody.getWaitCode(), Reservation.STATUS_CANCELED);            
+            System.out.println(result);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            response.put("message", e.getMessage());
+            return response;
+        }
+
+        response.put("message", "正常にキャンセルできました");
+        return response;
+    }
+    
 }
