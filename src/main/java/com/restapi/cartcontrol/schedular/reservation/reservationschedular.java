@@ -56,10 +56,8 @@ public class reservationschedular {
                     // 支払い料金を設定しているならStripeを待ってから完了に更新
                     if(reservation.getChargePrice() > 0){
                         try {
-                            System.err.println("キュー開始");
                             paymentSender.sendQueue(reservation.getWaitCode(),reservation.getChargePrice());
-                            reservationRepository.updateStatus(reservation.getWaitCode(), Reservation.STATUS_COMPLETED);
-                            System.err.println("キュー送信");
+                            reservationRepository.updateStatus(reservation.getWaitCode(), Reservation.STATUS_COMPLETED);    
                         }catch (Exception e) {
                             System.err.println("schedular error:"+e.getMessage());
                             log.error("schedular error:" + e.getMessage());

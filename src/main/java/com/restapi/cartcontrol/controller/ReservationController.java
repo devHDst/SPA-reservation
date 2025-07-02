@@ -31,6 +31,9 @@ public class ReservationController {
     private final static Logger log = LoggerFactory.getLogger(ReservationController.class);
     private final static String SUCCESS_MSG = "予約登録しました。当日店舗にお越しください";
     private final static String FAILURE_MSG = "予約に失敗しました。";
+    private final static String ID_NOT_FOUND_MEG = "予約IDが見つかりません";
+    private final static String BAD_PARAM_MSG = "日付が過去または空欄の場合、予約できません。";
+    private final static String SUCCESS_CANCEL_MSG = "正常にキャンセルできました";
     
     @Autowired
     ReservationRepository reservationRepository;
@@ -57,8 +60,16 @@ public class ReservationController {
         Shop checkShop = shopRepository.getShopDetailInfo(1);
         int chargePrice = (reservatoinInfo.getChargePrice() > 0) ? reservatoinInfo.getChargePrice() : 0;
 
-        // レスポンス準備
         Map<String, String> response = new HashMap<>(); 
+        // 日付チェック
+        LocalDateTime current = LocalDateTime.now();
+        // 予約日時が過去かデフォルト値なら返却
+        if(current.isAfter(reservatoinInfo.getExpDate()) || current.equals(reservatoinInfo.getExpDate())){
+            response.put("message", BAD_PARAM_MSG);
+            return response;
+        }
+
+        // レスポンス準備
         try {
             Reservation newReservation = new Reservation();
             newReservation.setUserId(reservatoinInfo.getUserId());
@@ -108,11 +119,10 @@ public class ReservationController {
         Map<String, String> response = new HashMap<>();
 
         if(checkinfo == null){
-            log.error("予約IDが見つかりません");
-            response.put("message", "予約IDが見つかりません");
+            log.error(ID_NOT_FOUND_MEG);
+            response.put("message", ID_NOT_FOUND_MEG);
             return response;
         }
-
 
         // キャンセル通知メールの確認処理をここで実装(メール失敗したら巻き戻し)
 
@@ -125,7 +135,7 @@ public class ReservationController {
             return response;
         }
 
-        response.put("message", "正常にキャンセルできました");
+        response.put("message", SUCCESS_CANCEL_MSG);
         return response;
     }
     
