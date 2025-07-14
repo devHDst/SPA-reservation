@@ -10,7 +10,26 @@
 
 <h2>0.操作方法</h2>
 <p>ローカルのでの運用方法はルートディレクトリでvscode+jdkの構成で実行していたので、vscode上部の検索バーから「デバッグを選択」</p>
-<p>注意としてstripe_api_keyとgoogle_map_keyは個別の値を差し込むこと(サーバー上での運用手順は追記予定)</p>
+<pre>
+デプロイ方法
+環境構築
+java 17(LTS)
+mvn
+1.以下のコマンドでmavenの設定を入れビルドを実行する
+mvn wrapper:wrapper(初回のみ)
+./mvnw clean package
+
+2.gceインスタンスにデプロイする
+ gcloud compute scp --project "<GCPのプロジェクト名>" --zone "<GCEインスタンスのゾーン(リージョン)>" --recurse ./target/{jarファイル}.jar  <GCEのインスタンス名>:<アップロード先パス>
+
+3.gceインスタンスにログインし、デプロイを確認
+gcloud compute ssh --zone "asia-northeast1-a" {インスタンス名} --project {プロジェクトID}
+
+4.envコマンドで以下の環境変数を確認(ない場合はexportで入れる)
+export  MYSQL_URL=""
+export  MYSQL_USER=""
+export  MYSQL_PASSWORD=""
+</pre>
 
 <h2>1.プロジェクトの概要</h2>
 <p>react+springbootで予約、自動決済機能を活用したSPA(single-page-Application)であり、このrepositoryは以下バックエンド枠の予約管理管理コンテナのソース管理兼メモとして利用してます。</p>
