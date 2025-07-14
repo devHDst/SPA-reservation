@@ -15,26 +15,26 @@ import com.restapi.cartcontrol.model.entity.Reservation;
 
 @EnableJpaRepositories
 public interface ReservationRepository extends JpaRepository<Reservation,String>{
-    @Query(value = "SELECT * FROM Reservation WHERE userId = :userId and status = 0",nativeQuery = true)
+    @Query(value = "SELECT * FROM reservation WHERE userId = :userId and status = 0",nativeQuery = true)
     Reservation getUserReservation(@Param("userId") String userId);
 
-    @Query(value = "SELECT * FROM Reservation WHERE wait_code = :waitCode and status = 0",nativeQuery = true)
+    @Query(value = "SELECT * FROM reservation WHERE wait_code = :waitCode and status = 0",nativeQuery = true)
     Reservation getReservationByWaitCd(@Param("waitCode") String waitCode);
 
-    @Query(value = "SELECT * FROM Reservation Where status = 0",nativeQuery = true)
+    @Query(value = "SELECT * FROM reservation Where status = 0",nativeQuery = true)
     List<Reservation> getPaymentInfo();
     
-    @Query(value = "UPDATE Reservation SET status = 2 WHERE wait_code = :waitCode",nativeQuery = true)
+    @Query(value = "UPDATE reservation SET status = 2 WHERE wait_code = :waitCode",nativeQuery = true)
     @Modifying
     @Transactional
     int setCheckin(@Param("waitCode") int waitCode);
 
-    @Query(value = "UPDATE Reservation SET status = :status WHERE wait_code = :waitCode",nativeQuery = true)
+    @Query(value = "UPDATE reservation SET status = :status WHERE wait_code = :waitCode",nativeQuery = true)
     @Transactional
     @Modifying
     int updateStatus(@Param("waitCode") String waitCode, @Param("status") int status);
 
-    @Query(value = "UPDATE Reservation SET status = 3 WHERE expire_date < :expireDate and status = 0",nativeQuery = true)
+    @Query(value = "UPDATE reservation SET status = 3 WHERE expire_date < :expireDate and status = 0",nativeQuery = true)
     @Modifying
     @Transactional
     int updateExpiredReservation(@Param("expireDate") LocalDateTime expireDate);
