@@ -4,18 +4,21 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.restapi.cartcontrol.model.entity.Shop;
 import com.restapi.cartcontrol.model.repository.ShopRepository;
 import com.restapi.cartcontrol.requestbody.Shop.RegistBody;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 @RequestMapping("/shop")
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST})
 public class ShopController {
     
     @Autowired

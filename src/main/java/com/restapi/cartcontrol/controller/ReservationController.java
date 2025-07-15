@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.restapi.cartcontrol.model.entity.Reservation;
@@ -19,6 +20,7 @@ import com.restapi.cartcontrol.model.repository.ShopRepository;
 import com.restapi.cartcontrol.requestbody.Reservation.CancelBody;
 import com.restapi.cartcontrol.requestbody.Reservation.RegistBody;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/reservation")
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST})
 public class ReservationController {
     
     private final static Logger log = LoggerFactory.getLogger(ReservationController.class);

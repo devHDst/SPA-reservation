@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.restapi.cartcontrol.model.entity.Menu;
@@ -13,12 +14,14 @@ import com.restapi.cartcontrol.model.repository.MenuRepository;
 import com.restapi.cartcontrol.model.repository.ShopRepository;
 import com.restapi.cartcontrol.requestbody.Menu.RegistBody;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 @RequestMapping("/menu")
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST})
 public class MenuController {
 
     @Autowired

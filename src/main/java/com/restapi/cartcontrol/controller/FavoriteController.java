@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.restapi.cartcontrol.model.entity.Favorite;
@@ -14,12 +15,14 @@ import com.restapi.cartcontrol.model.repository.FavoriteRepository;
 import com.restapi.cartcontrol.model.repository.ShopRepository;
 import com.restapi.cartcontrol.requestbody.Favorite.RegistBody;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 @RequestMapping("/favorite")
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST})
 public class FavoriteController {
     
     @Autowired
